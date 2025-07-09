@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const exportConversationsBtn = document.getElementById('exportConversationsBtn');
     const exportCurrentChatBtn = document.getElementById('exportCurrentChatBtn');
     const exportCurrentChatGPTBtn = document.getElementById('exportCurrentChatGPTBtn');
+    const exportConversationsChatGPTBtn = document.getElementById('exportConversationsChatGPTBtn');
 
     if (exportConversationsBtn) {
         exportConversationsBtn.addEventListener('click', () => {
@@ -44,6 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
         exportCurrentChatGPTBtn.addEventListener('click', () => {
             popupLogger.log('Clicked: Export Current ChatGPT Chat');
             popupBrowserAPI.runtime.sendMessage({ action: "exportCurrentChatGPT" });
+        });
+    }
+
+    if (exportConversationsChatGPTBtn) {
+        exportConversationsChatGPTBtn.addEventListener('click', () => {
+            popupLogger.log('Clicked: Export All ChatGPT Conversations');
+            popupBrowserAPI.runtime.sendMessage({ action: "exportConversationsChatGPT" });
         });
     }
 });

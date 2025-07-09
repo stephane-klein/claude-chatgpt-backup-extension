@@ -505,6 +505,61 @@ async function exportCurrentChatGPT() {
     }
 }
 
+async function exportConversationsChatGPT() {
+    const token = await getChatGPTAccessToken();
+
+    const conversations = [];
+    let offset = 0;
+    while (true) {
+        const response = await fetch(
+            `https://${DOMAIN_CHATGPT}/backend-api/conversations?offset=${offset}&limit=100&order=updated&is_archived=false`,
+                {
+                credentials: "include",
+                headers: {
+                    "User-Agent": window.navigator.userAgent,
+                    Accept: "*/*",
+                    "Accept-Language": navigator.language,
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                    "Alt-Used": DOMAIN_CHATGPT,
+                    Pragma: "no-cache",
+                    "Cache-Control": "no-cache",
+                },
+                method: "GET",
+                mode: "cors",
+            }
+        );
+        const responseJson = await response.json();
+        conversations.push(...responseJson.items);
+        if (responseJson.items.length < 100) {
+            break;
+        } else {
+            offset += 100;
+        }
+    }
+
+    await showNotification(
+        "HumainLabs ChatGPT Backup", 
+        `Start loading ${conversations.length} conversations...`
+    );
+
+    const allConversationData = await Promise.all(
+        conversations.map(conv =>
+            getChatGPTConversation(conv.id)
+        )
+    );
+
+    await downloadJson(
+        allConversationData, 
+        `${formatDateForFilename()}_chatgpt_all_conversations.json`
+    );
+    
+    await showNotification(
+        "HumainLabs ChatGPT Backup", 
+        `Successfully exported ${allConversationData.length} conversations!`
+    );
+}
+
 // Handle messages from the popup
 bgBrowserAPI.runtime.onMessage.addListener((message: any, sender: MessageSender) => {
     bgLogger.log("Received message:", message.action);
@@ -514,5 +569,7 @@ bgBrowserAPI.runtime.onMessage.addListener((message: any, sender: MessageSender)
         exportCurrentChat();
     } else if (message.action === "exportCurrentChatGPT") {
         exportCurrentChatGPT();
+    } else if (message.action === "exportConversationsChatGPT") {
+        exportConversationsChatGPT();
     }
 });

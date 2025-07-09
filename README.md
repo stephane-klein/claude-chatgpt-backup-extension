@@ -47,10 +47,10 @@ This Firefox extension focuses exclusively on providing a lightweight yet powerf
 
 | Feature                          | Description                                                                                |
 | -------------------------------- | ------------------------------------------------------------------------------------------ |
-| **Multi-Platform Support**       | Backup conversations from both Claude.ai and ChatGPT                                      |
+| **Multi-Platform Support**       | Backup conversations from both Claude.ai and ChatGPT                                       |
 | **Complete Data Structure**      | Preserves entire conversation history including Claude's thinking process                  |
 | **Single Chat Backup**           | Export just your current conversation with one click                                       |
-| **Bulk Backup (Claude only)**    | Download all Claude conversations at once                                                  |
+| **Bulk Backup**                  | Download all Claude or ChatGPT conversations at once                                       |
 | **Intuitive Interface**          | Clean, simple UI with platform-specific styling                                            |
 | **Structured JSON Format**       | Easy to process with downstream tools and analysis                                         |
 | **Privacy-Focused**              | Your data stays on your device, no third-party servers                                     |
@@ -94,7 +94,9 @@ The extension uses your existing authenticated sessions to access the APIs, so i
 
 1. Navigate to [ChatGPT](https://chatgpt.com) and open a conversation
 2. Click on the HumainLabs extension icon in your Firefox toolbar
-3. Click on "Backup Current ChatGPT Chat" to save the current conversation
+3. Choose either:
+   - "Backup Current ChatGPT Chat" to save only the current conversation
+   - "Backup All ChatGPT Conversations" to save all your conversations
 
 For both services, you'll be prompted to choose where to save the JSON file. The file will be named with the chat title and timestamp.
 
